@@ -7,19 +7,20 @@ response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_
 database = response.json()
 database = database["Time Series (Daily)"] #Taking the data that relates to the stock only
 
-w = len(database.items())
-print w
+size = len(database.items())
 
-hd = dict()
-hd['open'] = []
-hd['high'] = []
-hd['low'] = []
-hd['close'] = []
+hd = {'open': [], 'high': [], 'low': [], 'close': [], 'HW_PCT': [], 'PCT_change': [], 'volume': []}
 
 for i in sorted(database.items()):
   hd['close'].append(float(i[1]['4. close']))
   hd['open'].append(float(i[1]['1. open']))
   hd['high'].append(float(i[1]['2. high']))
   hd['low'].append(float(i[1]['3. low']))
+  hd['volume'].append(float(i[1]['5. volume']))
 
-pprint.pprint(hd)
+for j in range(size):
+  hd['HW_PCT'].append((hd['high'][j] - hd['low'][j]) / hd['low'][j] * 100.0)
+  hd['PCT_change'].append((hd['close'][j] - hd['open'][j]) / hd['open'][j] * 100.0)
+
+data_train = [['test']]
+print data_train
