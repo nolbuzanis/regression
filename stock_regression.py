@@ -22,5 +22,6 @@ for j in range(size):
   hd['HW_PCT'].append((hd['high'][j] - hd['low'][j]) / hd['low'][j] * 100.0)
   hd['PCT_change'].append((hd['close'][j] - hd['open'][j]) / hd['open'][j] * 100.0)
 
-data_train = [['test']]
-print data_train
+data_train = [hd['close'], hd['HW_PCT'], hd['PCT_change'], hd['volume']]
+
+pprint.pprint(data_train)
