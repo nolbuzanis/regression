@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+import pprint
 
 # Alpha Advantage API Key: NTPHR1WENP1A3M66
 response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
@@ -21,4 +22,4 @@ for i in sorted(database.items()):
   hd['high'].append(float(i[1]['2. high']))
   hd['low'].append(float(i[1]['3. low']))
 
-print hd
+pprint.pprint(hd)
