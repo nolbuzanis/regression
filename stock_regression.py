@@ -2,8 +2,20 @@ import pandas as pd
 import requests
 
 # Alpha Advantage API Key: NTPHR1WENP1A3M66
-response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=BRK.B&outputsize=compact&apikey=NTPHR1WENP1A3M66')
-data = response.json()
-data = data["Time Series (Daily)"] #Taking the data that relates to the stock only
+response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
+database = response.json()
+database = database["Time Series (Daily)"] #Taking the data that relates to the stock only
 
-print(data["2018-12-19"])
+w = len(database.items())
+print w
+
+hd = dict()
+hd['open'] = []
+hd['high'] = []
+hd['low'] = []
+hd['close'] = []
+
+for i in sorted(database.items()):
+  hd['close'].append(float(i[1]['4. close']))
+
+print hd
