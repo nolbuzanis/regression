@@ -17,5 +17,8 @@ hd['close'] = []
 
 for i in sorted(database.items()):
   hd['close'].append(float(i[1]['4. close']))
+  hd['open'].append(float(i[1]['1. open']))
+  hd['high'].append(float(i[1]['2. high']))
+  hd['low'].append(float(i[1]['3. low']))
 
 print hd
