@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import pprint
+import math
 
 # Alpha Advantage API Key: NTPHR1WENP1A3M66
 response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
@@ -22,6 +23,11 @@ for j in range(size):
   hd['HW_PCT'].append((hd['high'][j] - hd['low'][j]) / hd['low'][j] * 100.0)
   hd['PCT_change'].append((hd['close'][j] - hd['open'][j]) / hd['open'][j] * 100.0)
 
-data_train = [hd['close'], hd['HW_PCT'], hd['PCT_change'], hd['volume']]
+data_train = {'Close': hd['close'], 'HW_PCT': hd['HW_PCT'], 'PCT_Change': hd['PCT_change'], 'Volume': hd['volume']}
 
-pprint.pprint(data_train)
+# Convert data into a pandas dataframe
+dt = pd.DataFrame(data=data_train)
+dt.fillna(-9999, inplace=True)
+
+forecast_col = 'Close'
+forcast_out = int(math.ceil(0.1*len(dt)))
