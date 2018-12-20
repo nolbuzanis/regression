@@ -10,9 +10,10 @@ database = database["Time Series (Daily)"] #Taking the data that relates to the 
 
 size = len(database.items())
 
-hd = {'open': [], 'high': [], 'low': [], 'close': [], 'HW_PCT': [], 'PCT_change': [], 'volume': []}
+hd = {'open': [], 'high': [], 'low': [], 'close': [], 'HW_PCT': [], 'PCT_change': [], 'volume': [], 'date':[]}
 
 for i in sorted(database.items()):
+  hd['date'].append(i[0])
   hd['close'].append(float(i[1]['4. close']))
   hd['open'].append(float(i[1]['1. open']))
   hd['high'].append(float(i[1]['2. high']))
@@ -26,8 +27,13 @@ for j in range(size):
 data_train = {'Close': hd['close'], 'HW_PCT': hd['HW_PCT'], 'PCT_Change': hd['PCT_change'], 'Volume': hd['volume']}
 
 # Convert data into a pandas dataframe
-dt = pd.DataFrame(data=data_train)
+dt = pd.DataFrame(data=data_train, index=hd['date'])
 dt.fillna(-9999, inplace=True)
 
 forecast_col = 'Close'
-forcast_out = int(math.ceil(0.1*len(dt)))
+forecast_out = int(math.ceil(0.01*len(dt)))
+
+dt['label'] = dt[forecast_col].shift(-forecast_out)
+dt.dropna(inplace=True)
+
+print dt
