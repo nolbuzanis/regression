@@ -2,6 +2,9 @@ import pandas as pd
 import requests
 import pprint
 import math
+import numpy as np
+from sklearn import preprocessing, svm, model_selection
+from sklearn.linear_model import LinearRegression
 
 # Alpha Advantage API Key: NTPHR1WENP1A3M66
 response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
@@ -36,4 +39,15 @@ forecast_out = int(math.ceil(0.01*len(dt)))
 dt['label'] = dt[forecast_col].shift(-forecast_out)
 dt.dropna(inplace=True)
 
-print dt
+X = np.array(dt.drop(['label'], 1)) #features
+y = np.array(dt['label']) #label
+
+X = preprocessing.scale(X) #scale down features to (0,1) for easier processing
+
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size = 0.2)
+
+clf = LinearRegression() #Create a classifier
+clf.fit(X_train, y_train) #Train the data
+accuracy = clf.score(X_test, y_test) #Test the data
+
+print(accuracy)
