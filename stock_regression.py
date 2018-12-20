@@ -7,7 +7,7 @@ from sklearn import preprocessing, svm, model_selection
 from sklearn.linear_model import LinearRegression
 
 # Alpha Advantage API Key: NTPHR1WENP1A3M66
-response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
+response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol=BRK.B&apikey=NTPHR1WENP1A3M66')
 database = response.json()
 database = database["Time Series (Daily)"] #Taking the data that relates to the stock only
 
